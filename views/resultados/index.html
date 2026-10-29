@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gestión de resultados | Laboratorio Clínico</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="/">LABORATORIO CLÍNICO</a>
+        <div class="top-actions"><span id="user-name"></span><button class="btn secondary" onclick="logout()">Cerrar
+                sesión</button></div>
+    </header>
+    <div class="shell">
+        <nav class="sidebar"><a href="/" class="">Panel principal</a><a href="/personas" class="">Personas</a><a
+                href="/pacientes" class="">Pacientes</a><a href="/analisis" class="">Catalogo de Análisis</a><a
+                href="/solicitudes" class="">Solicitudes</a><a href="/resultados" class="active">Resultados</a><a
+                href="/pagos" class="">Pagos</a><a href="/reportes" class="">Reportes</a></nav>
+        <main>
+            <div class="page-head">
+                <div>
+                    <h1>Gestión de resultados</h1>
+                    <p class="muted">Registra resultados de los análisis pendientes.</p>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div>
+            <section class="panel">
+                <h2 id="form-title">Registrar resultado</h2>
+                <form id="form">
+                    <input type="hidden" id="resultado-id">
+                    <div class="fields">
+                        <div class="field"><label for="patient-ci">CI del paciente *</label><input id="patient-ci" autocomplete="off" required><button class="btn secondary" type="button" id="search-patient">Buscar análisis</button><small id="patient-info" class="muted">Ingresa el CI para listar sus análisis pendientes.</small></div>
+                        <div class="field full" id="detail-field"><label for="solicitud_detalle_id">Análisis solicitado sin resultado *</label><select id="solicitud_detalle_id" required disabled><option value="">Primero busca al paciente</option></select></div>
+                        <div class="field full" id="reactive-field" hidden><label>Reactivos utilizados *</label><div id="reactive-list" class="checklist"></div><small class="muted">Selecciona cada reactivo e indica la cantidad utilizada; el stock se descontará al guardar.</small></div>
+                        <p class="field full muted" id="editing-info" hidden></p>
+                        <div class="field"><label for="valor">Resultado *</label><input id="valor" required
+                                placeholder="Ej. 5.2"></div>
+                        <div class="field"><label for="unidad">Unidad</label><input id="unidad"
+                                placeholder="Ej. mmol/L"></div>
+                        <div class="field"><label for="referencia">Rango de referencia</label><input id="referencia"
+                                placeholder="Según laboratorio"></div>
+                        <div class="field full"><label for="interpretacion">Interpretación</label><textarea
+                            id="interpretacion" placeholder="Interpretación del personal autorizado"></textarea></div>
+                        <div class="field full"><label for="observaciones">Observaciones</label><textarea
+                                id="observaciones"></textarea></div>
+                    </div>
+                    <div class="form-actions"><button class="btn" type="submit">Guardar resultado</button><button class="btn secondary" type="button" id="cancel-edit" hidden>Cancelar edición</button></div>
+                </form>
+            </section>
+            <section class="panel">
+                <h2>Resultados registrados</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Solicitud</th>
+                                <th>Paciente</th>
+                                <th>Análisis</th>
+                                <th>Resultado</th>
+                                <th>Unidad</th>
+                                <th>Interpretación</th>
+                                <th>Reactivos utilizados</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/assets/js/common.js"></script>
+    <script>loadUser();</script>
+    <script src="/assets/js/resultados.js"></script>
+</body>
+
+</html>

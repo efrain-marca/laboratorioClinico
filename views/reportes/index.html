@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Reportes | Laboratorio Clínico</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header class="topbar no-print"><a class="brand" href="/">LABORATORIO CLÍNICO</a>
+        <div class="top-actions"><span id="user-name"></span><button class="btn secondary" onclick="logout()">Cerrar
+                sesión</button></div>
+    </header>
+    <div class="shell">
+        <nav class="sidebar no-print"><a href="/" class="">Panel principal</a><a href="/personas" class="">Personas</a><a
+                href="/pacientes" class="">Pacientes</a><a href="/analisis" class="active">Catalogo de Análisis</a><a
+                href="/solicitudes" class="">Solicitudes</a><a href="/resultados" class="">Resultados</a><a
+                href="/pagos" class="">Pagos</a><a href="/reportes" class="active">Reportes</a></nav>
+        <main>
+            <div class="page-head">
+                <div>
+                    <h1 id="report-heading">Reportes</h1>
+                    <p class="muted" id="report-caption">Consulta indicadores administrativos.</p>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div>
+            <section class="panel no-print">
+                <div class="field"><label for="report-type">Tipo de reporte</label><select id="report-type"><option value="administrativo">Resumen administrativo</option><option value="catalogo">Catálogo de análisis</option><option value="solicitudes">Solicitudes por periodo</option><option value="paciente">Historial del paciente</option><option value="inventario">Inventario de químicos</option><option value="usuarios">Usuarios del sistema</option></select></div>
+            </section>
+            <section class="panel no-print" id="period-panel">
+                <form id="period-form" class="fields">
+                    <div class="field"><label for="desde">Desde</label><input id="desde" type="date" required></div>
+                    <div class="field"><label for="hasta">Hasta</label><input id="hasta" type="date" required></div>
+                    <div class="form-actions"><button class="btn">Consultar periodo</button></div>
+                </form>
+            </section>
+            <div id="admin-report">
+            <section class="grid" id="stats">
+                <div class="stat"><span>Personas registradas</span><strong id="personas">—</strong></div>
+                <div class="stat"><span>Pacientes registrados</span><strong id="pacientes">—</strong></div>
+                <div class="stat"><span>Solicitudes</span><strong id="solicitudes">—</strong></div>
+                <div class="stat"><span>Análisis realizados</span><strong id="analisis-realizados">—</strong></div>
+                <div class="stat"><span>Resultados emitidos</span><strong id="resultados">—</strong></div>
+                <div class="stat"><span>Pagos registrados</span><strong id="pagos">—</strong></div>
+                <div class="stat"><span>Ingresos</span><strong id="ingresos">—</strong></div>
+            </section>
+            <section class="panel">
+                <h2>Análisis solicitados y realizados</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th><th>Análisis</th><th>Solicitados</th><th>Realizados</th>
+                            </tr>
+                        </thead>
+                        <tbody id="analysis-rows"></tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="panel">
+                <h2>Ingresos por mes</h2>
+                <div class="table-wrap"><table><thead><tr><th>Mes</th><th>Total recaudado</th></tr></thead><tbody id="rows"></tbody></table></div>
+                <button class="btn secondary" onclick="window.print()">Imprimir reporte</button>
+            </section>
+            </div>
+            <section class="panel" id="patient-report" hidden>
+                <div class="field no-print"><label for="report-patient-search">Buscar paciente por CI o nombre</label><input id="report-patient-search" type="search" autocomplete="off" placeholder="CI, nombres o apellidos"><div id="report-patient-results" class="search-results" hidden></div></div>
+                <div id="report-patient-info"></div>
+                <div id="report-patient-history" hidden>
+                    <h2>Solicitudes y saldos</h2><div class="table-wrap"><table><thead><tr><th>Solicitud</th><th>Fecha</th><th>Estado</th><th>Total</th><th>Pagado</th><th>Saldo</th></tr></thead><tbody id="patient-requests"></tbody></table></div>
+                    <h2>Resultados</h2><div class="table-wrap"><table><thead><tr><th>Solicitud</th><th>Análisis</th><th>Resultado</th><th>Interpretación</th><th>Fecha</th><th>Validación</th></tr></thead><tbody id="patient-results"></tbody></table></div>
+                    <h2>Pagos</h2><div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Solicitud</th><th>Monto</th><th>Método</th><th>Referencia</th></tr></thead><tbody id="patient-payments"></tbody></table></div>
+                    <button class="btn secondary" onclick="window.print()">Imprimir reporte</button>
+                </div>
+            </section>
+            <section class="panel" id="inventory-report" hidden>
+                <div class="page-head"><h2>Existencias de químicos</h2><button class="btn secondary" onclick="window.print()">Imprimir reporte</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Código</th><th>Químico</th><th>Unidad</th><th>Existencia</th><th>Mínimo</th><th>Estado</th></tr></thead><tbody id="inventory-rows"></tbody></table></div>
+            </section>
+            <section class="panel" id="catalog-report" hidden>
+                <div class="page-head"><h2>Catálogo de análisis</h2><button class="btn secondary" onclick="window.print()">Imprimir reporte</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Código</th><th>Análisis</th><th>Descripción</th><th>Precio</th><th>Entrega</th><th>Estado</th></tr></thead><tbody id="catalog-rows"></tbody></table></div>
+            </section>
+            <section class="panel" id="requests-report" hidden>
+                <div class="page-head"><h2>Solicitudes por periodo</h2><button class="btn secondary" onclick="window.print()">Imprimir reporte</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Fecha</th><th>Solicitud</th><th>CI</th><th>Paciente</th><th>Análisis</th><th>Estado</th><th>Total</th><th>Pagado</th><th>Saldo</th></tr></thead><tbody id="request-rows"></tbody></table></div>
+            </section>
+            <section class="panel" id="users-report" hidden>
+                <div class="page-head"><h2>Usuarios del sistema</h2><button class="btn secondary" onclick="window.print()">Imprimir reporte</button></div>
+                <div class="table-wrap"><table><thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Vistas autorizadas</th><th>Estado</th><th>Creado</th></tr></thead><tbody id="user-rows"></tbody></table></div>
+            </section>
+        </main>
+    </div>
+    <script src="/assets/js/common.js"></script>
+    <script>loadUser();</script>
+    <script src="/assets/js/reportes.js"></script>
+</body>
+
+</html>

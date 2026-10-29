@@ -1,0 +1,14 @@
+const express=require('express');
+const c=require('../controllers/solicitudController');
+const {requireRole}=require('../middleware/auth');
+const router=express.Router();
+router.use(requireRole('administrador','recepcionista','laboratorista'));
+router.get('/',c.listar);
+router.get('/opciones/pacientes',c.buscarPacientes);
+router.get('/opciones',c.opciones);
+router.get('/:id',c.obtener);
+router.post('/',requireRole('administrador','recepcionista'),c.crear);
+router.put('/:id',requireRole('administrador','recepcionista'),c.actualizar);
+router.patch('/:id/estado',requireRole('administrador','laboratorista'),c.cambiarEstado);
+router.delete('/:id',requireRole('administrador','recepcionista'),c.eliminar);
+module.exports=router;

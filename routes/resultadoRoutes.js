@@ -1,0 +1,12 @@
+const express=require('express');
+const c=require('../controllers/resultadoController');
+const {requireRole}=require('../middleware/auth');
+const router=express.Router();
+router.use(requireRole('administrador','recepcionista','laboratorista'));
+router.get('/',c.listar);
+router.get('/pendientes',c.pendientes);
+router.post('/',c.crear);
+router.put('/:id',requireRole('administrador','laboratorista'),c.actualizar);
+router.patch('/:id/validar',requireRole('administrador','laboratorista'),c.validar);
+router.delete('/:id',requireRole('administrador','laboratorista'),c.eliminar);
+module.exports=router;

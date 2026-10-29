@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gestión de pacientes | Laboratorio Clínico</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="/">LABORATORIO CLÍNICO</a>
+        <div class="top-actions"><span id="user-name"></span><button class="btn secondary" onclick="logout()">Cerrar
+                sesión</button></div>
+    </header>
+    <div class="shell">
+        <nav class="sidebar"><a href="/" class="">Panel principal</a><a href="/personas" class="">Personas</a><a
+                href="/pacientes" class="active">Pacientes</a><a href="/analisis" class="">Catalogo de Análisis</a><a
+                href="/solicitudes" class="">Solicitudes</a><a href="/resultados" class="">Resultados</a><a
+                href="/pagos" class="">Pagos</a><a href="/reportes" class="">Reportes</a></nav>
+        <main>
+            <div class="page-head">
+                <div>
+                    <h1>Gestión de pacientes</h1>
+                    <p class="muted">Registra pacientes vinculando sus datos personales.</p>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div>
+            <section class="panel">
+                <h2 id="form-title">Registrar paciente</h2>
+                <form id="form"><input type="hidden" id="paciente-id">
+                    <div class="fields">
+                        <div class="field"><label for="persona-search">Buscar persona por CI o nombre *</label><input id="persona-search" type="search" autocomplete="off" placeholder="CI, nombres o apellidos"><input type="hidden" id="persona_id"><div id="persona-results" class="search-results" hidden></div><small id="selected-person" class="muted">Selecciona una persona de los resultados.</small></div>
+                        <div class="field"><label for="codigo_paciente">Código de paciente</label><input id="codigo_paciente" readonly placeholder="Se asigna al guardar"></div>
+                        <div class="field full"><label for="observaciones">Observaciones</label><textarea
+                                id="observaciones"></textarea></div>
+                    </div>
+                    <div class="form-actions"><button class="btn">Guardar paciente</button><button class="btn secondary"
+                            type="button" id="cancel-edit">Limpiar</button><a class="btn secondary"
+                            href="/personas">Editar datos personales</a></div>
+                </form>
+            </section>
+            <section class="panel">
+                <h2>Pacientes registrados</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>CI</th>
+                                <th>Paciente</th>
+                                <th>Teléfono</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="panel" id="history-panel" hidden>
+                <div class="page-head">
+                    <h2>Historial clínico</h2><button class="btn secondary" id="close-history">Cerrar</button>
+                </div>
+                <div id="history-content"></div>
+            </section>
+        </main>
+    </div>
+    <script src="/assets/js/common.js"></script>
+    <script>loadUser();</script>
+    <script src="/assets/js/pacientes.js"></script>
+</body>
+
+</html>

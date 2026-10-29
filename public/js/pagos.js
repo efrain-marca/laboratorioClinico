@@ -1,0 +1,14 @@
+let options=[];
+async function loadOptions(term=''){
+	const results=document.querySelector('#payment-request-results');
+	if(!term.trim()){results.hidden=true;results.innerHTML='';return;}
+	options=await api(`/api/pagos/opciones/solicitudes?buscar=${encodeURIComponent(term)}`);
+	results.innerHTML=options.map(item=>`<button type="button" class="search-option" data-request-id="${item.id}" data-request-label="${esc(`${item.ci} · ${item.paciente} · ${item.codigo}`)}" data-request-info="${esc([item.telefono,item.email].filter(Boolean).join(' · '))}" data-balance="${Number(item.saldo)}">${esc(item.ci)} · ${esc(item.paciente)} · ${esc(item.codigo)} · saldo ${money(item.saldo)}</button>`).join('')||'<span class="search-empty">No hay solicitudes con saldo para esa búsqueda.</span>';
+	results.hidden=false;
+}
+function clearSelection(){document.querySelector('#solicitud_id').value='';document.querySelector('#selected-payment-request').textContent='Selecciona una solicitud con saldo.';}
+async function refresh(){const rows=await api('/api/pagos');document.querySelector('#rows').innerHTML=rows.map(x=>`<tr><td>${esc(dateText(x.fecha_pago))}</td><td>${esc(x.solicitud)}</td><td>${esc(x.paciente)}</td><td>${money(x.monto)}</td><td>${esc(x.metodo)}</td><td>${esc(x.estado_pago)}</td><td>${esc(x.referencia)}</td></tr>`).join('')||'<tr><td colspan="7" class="empty">No hay pagos.</td></tr>';}
+document.querySelector('#form').addEventListener('submit',async event=>{event.preventDefault();const body={solicitud_id:document.querySelector('#solicitud_id').value,monto:Number(document.querySelector('#monto').value),metodo:document.querySelector('#metodo').value,referencia:document.querySelector('#referencia').value};if(!body.solicitud_id){notice('Busca y selecciona una solicitud con saldo.',true);return;}try{await api('/api/pagos',{method:'POST',body:JSON.stringify(body)});notice('Pago registrado.');event.target.reset();clearSelection();await Promise.all([loadOptions(document.querySelector('#payment-patient-search').value),refresh()]);}catch(error){notice(error.message,true);}});
+document.querySelector('#payment-patient-search').addEventListener('input',event=>{clearSelection();loadOptions(event.target.value).catch(error=>notice(error.message,true));});
+document.querySelector('#payment-request-results').addEventListener('click',event=>{const option=event.target.closest('[data-request-id]');if(!option)return;document.querySelector('#solicitud_id').value=option.dataset.requestId;document.querySelector('#selected-payment-request').textContent=`Solicitud seleccionada: ${option.dataset.requestLabel} · ${option.dataset.requestInfo||'sin datos adicionales'} · saldo ${money(option.dataset.balance)}`;document.querySelector('#payment-request-results').hidden=true;});
+Promise.all([refresh()]).catch(error=>notice(error.message,true));

@@ -1,0 +1,10 @@
+const express=require('express');
+const c=require('../controllers/pagoController');
+const {requireRole}=require('../middleware/auth');
+const router=express.Router();
+router.use(requireRole('administrador','recepcionista','cajero'));
+router.get('/',c.listar);
+router.get('/opciones/solicitudes',c.opciones);
+router.post('/',c.crear);
+router.delete('/:id',c.eliminar);
+module.exports=router;

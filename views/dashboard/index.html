@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Panel principal | Laboratorio Clínico</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="/">LABORATORIO CLÍNICO</a>
+        <div class="top-actions"><span id="user-name"></span><button class="btn secondary" onclick="logout()">Cerrar
+                sesión</button></div>
+    </header>
+    <div class="shell">
+        <nav class="sidebar"><a href="/" class="active">Panel principal</a><a href="/personas" class="">Personas</a><a
+                href="/pacientes" class="">Pacientes</a><a href="/analisis" class="">Catalogo de Análisis</a><a
+                href="/solicitudes" class="">Solicitudes</a><a href="/resultados" class="">Resultados</a><a
+                href="/pagos" class="">Pagos</a><a href="/reportes" class="">Reportes</a></nav>
+        <main>
+            <div class="page-head">
+                <div>
+                    <h1>Panel principal</h1>
+                    <p class="muted">Resumen general del laboratorio.</p>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div>
+            <div class="grid">
+                <div class="stat"><span>Personas registradas</span><strong id="s-personas">—</strong></div>
+                <div class="stat"><span>Pacientes</span><strong id="s-pacientes">—</strong></div>
+                <div class="stat"><span>Análisis activos</span><strong id="s-analisis">—</strong></div>
+                <div class="stat"><span>Solicitudes pendientes</span><strong id="s-pendientes">—</strong></div>
+                <div class="stat"><span>Solicitudes en proceso</span><strong id="s-proceso">—</strong></div>
+                <div class="stat"><span>Solicitudes completadas</span><strong id="s-completadas">—</strong></div>
+                <div class="stat" id="income-stat"><span>Ingresos de hoy</span><strong id="s-ingresos">—</strong></div>
+            </div>
+            <div class="panel">
+                <h2>Accesos rápidos</h2>
+                <div class="actions"><a class="btn" href="/pacientes">Registrar paciente</a><a class="btn"
+                        href="/solicitudes">Nueva solicitud</a><a class="btn" href="/resultados">Registrar
+                        resultado</a><a class="btn" href="/pagos">Registrar pago</a></div>
+            </div>
+        </main>
+    </div>
+    <script src="/assets/js/common.js"></script>
+    <script>loadUser();</script>
+    <script src="/assets/js/dashboard.js"></script>
+</body>
+
+</html>

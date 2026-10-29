@@ -1,0 +1,15 @@
+const express=require('express');
+const c=require('../controllers/reporteController');
+const {requireRole}=require('../middleware/auth');
+const router=express.Router();
+router.use(requireRole('administrador'));
+router.get('/resumen',c.resumen);
+router.get('/ingresos',c.ingresos);
+router.get('/pacientes',c.buscarPacientes);
+router.get('/pacientes/:id',c.historialPaciente);
+router.get('/inventario',c.inventario);
+router.get('/catalogo',c.catalogo);
+router.get('/solicitudes',c.solicitudes);
+router.get('/usuarios',c.usuarios);
+router.get('/periodo',c.periodo);
+module.exports=router;

@@ -1,0 +1,2 @@
+ALTER TABLE resultados
+  ADD COLUMN IF NOT EXISTS interpretacion TEXT NULL;

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Solicitudes de análisis | Laboratorio Clínico</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+    <header class="topbar"><a class="brand" href="/">LABORATORIO CLÍNICO</a>
+        <div class="top-actions"><span id="user-name"></span><button class="btn secondary" onclick="logout()">Cerrar
+                sesión</button></div>
+    </header>
+    <div class="shell">
+        <nav class="sidebar"><a href="/" class="">Panel principal</a><a href="/personas" class="">Personas</a><a
+                href="/pacientes" class="">Pacientes</a><a href="/analisis" class="active">Catalogo de Análisis</a><a
+                href="/solicitudes" class="active">Solicitudes</a><a href="/resultados" class="">Resultados</a><a
+                href="/pagos" class="">Pagos</a><a href="/reportes" class="">Reportes</a></nav>
+        <main>
+            <div class="page-head">
+                <div>
+                    <h1>Solicitudes de análisis</h1>
+                    <p class="muted">Crea solicitudes asociadas a pacientes y una o más pruebas.</p>
+                </div>
+            </div>
+            <div id="notice" class="notice"></div>
+            <div class="workflow-grid">
+            <section class="panel">
+                <h2 id="form-title">Nueva solicitud</h2>
+                <form id="form">
+                    <input type="hidden" id="solicitud-id">
+                    <div class="fields">
+                        <div class="field"><label for="paciente-search">Buscar paciente por CI o nombre *</label><input id="paciente-search" type="search" autocomplete="off" placeholder="CI, nombres o apellidos"><input type="hidden" id="paciente_id"><div id="patient-results" class="search-results" hidden></div><small id="selected-patient" class="muted">Selecciona un paciente de los resultados.</small></div>
+                        <div class="field full"><label>Análisis solicitados *</label>
+                            <div id="analisis-list" class="checklist"></div>
+                        </div>
+                        <div class="field full"><label for="observaciones">Observaciones</label><textarea
+                                id="observaciones"></textarea></div>
+                    </div>
+                    <p class="muted">Total estimado: <strong id="estimated-total">Bs 0,00</strong></p>
+                    <div class="form-actions"><button class="btn" type="submit">Crear solicitud</button><button class="btn secondary" id="cancel-edit" type="button" hidden>Cancelar edición</button></div>
+                </form>
+            </section>
+            <section class="panel" id="quick-payment-panel">
+                <h2>Registrar pago</h2>
+                <form id="quick-payment-form"><div class="fields">
+                    <div class="field full"><label for="quick-payment-search">Buscar paciente por CI o nombre</label><input id="quick-payment-search" type="search" autocomplete="off" placeholder="CI, nombres o apellidos"><input type="hidden" id="quick-payment-request"><div id="quick-payment-results" class="search-results" hidden></div><small id="quick-payment-selected" class="muted">Selecciona una solicitud con saldo.</small></div>
+                    <div class="field"><label for="quick-payment-amount">Monto (Bs) *</label><input id="quick-payment-amount" type="number" min="0.01" step="0.01" required></div>
+                    <div class="field"><label for="quick-payment-method">Método</label><select id="quick-payment-method"><option>Efectivo</option><option>Tarjeta</option><option>Transferencia</option><option>QR</option><option>Otro</option></select></div>
+                    <div class="field full"><label for="quick-payment-reference">Referencia</label><input id="quick-payment-reference"></div>
+                </div><div class="form-actions"><button class="btn" type="submit">Registrar pago</button></div></form>
+            </section>
+            </div>
+            <section class="panel">
+                <h2>Solicitudes registradas</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Código</th>
+                                <th>Paciente</th>
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                                <th>Total</th>
+                                <th>Pagado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rows"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/assets/js/common.js"></script>
+    <script>loadUser();</script>
+    <script src="/assets/js/solicitudes.js"></script>
+    <script src="/assets/js/solicitud-pagos.js"></script>
+</body>
+
+</html>
